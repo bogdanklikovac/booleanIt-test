@@ -20,18 +20,18 @@ $product = new Product($db);
 $data = json_decode(file_get_contents("php://input"));
 
 
-$product->id = $data->id;
+
 $product->category_name =$data->category_name;
 
 
 
 // Update product
-if($product->updateProductCategory()) {
+if($product->removeCategory()) {
     echo json_encode(
-        array('message' => 'Product Category Updated')
+        array('message' => 'Category Removed')
     );
 } else {
     echo json_encode(
-        array('message' => 'Product Category Not Updated')
+        array('message' => 'Category Not Removed')
     );
 }

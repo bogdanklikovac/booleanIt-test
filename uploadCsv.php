@@ -30,7 +30,7 @@ if(isset($_POST["import"])){
                     $prep->bindParam(':url', $column[9]);
 
                     $prep->execute();
-                    header('Location: api/product/all_products.php');
+
                 }
                 $row++;
             }

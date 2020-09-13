@@ -22,16 +22,25 @@ $data = json_decode(file_get_contents("php://input"));
 
 $product->id = $data->id;
 $product->category_name =$data->category_name;
+$product->departmant_name =$data->departmant_name;
+$product->model_number =$data->model_number;
+$product->manufacturer_name =$data->manufacturer_name;
+$product->upc =$data->upc;
+$product->sku =$data->sku;
+$product->regular_price =$data->regular_price;
+$product->sale_price =$data->sale_price;
+$product->description =$data->description;
+$product->url =$data->url;
 
 
 
 // Update product
-if($product->updateProductCategory()) {
+if($product->updateProduct()) {
     echo json_encode(
-        array('message' => 'Product Category Updated')
+        array('message' => 'Product Updated')
     );
 } else {
     echo json_encode(
-        array('message' => 'Product Category Not Updated')
+        array('message' => 'Product Not Updated')
     );
 }

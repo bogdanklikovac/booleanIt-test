@@ -66,8 +66,8 @@ class Product {
         return $stmt;
     }
 
-    // Update Product
-    public function updateProduct() {
+    // Update Product Category
+    public function updateProductCategory() {
 
         //Create query
         $query = 'UPDATE ' . $this->table . ' 
@@ -119,6 +119,85 @@ class Product {
 
         return false;
 
+    }
+
+    // Update Product
+    public function updateProduct() {
+
+        //Create query
+        $query = 'UPDATE ' . $this->table . ' 
+                  SET
+                    category_name = :category_name,
+                    departmant_name = :departmant_name,
+                    model_number = :model_number,
+                    manufacturer_name = :manufacturer_name,
+                    upc = :upc,
+                    sku = :sku,
+                    regular_price = :regular_price,
+                    sale_price = :sale_price,
+                    description = :description,
+                    url = :url
+                  WHERE
+                    id = :id';
+        $stmt = $this->conn->prepare($query);
+
+
+        //Bind data
+
+        $stmt->bindParam(':category_name', $this->category_name);
+        $stmt->bindParam(':departmant_name', $this->departmant_name);
+        $stmt->bindParam(':model_number', $this->model_number);
+        $stmt->bindParam(':manufacturer_name', $this->manufacturer_name);
+        $stmt->bindParam(':upc', $this->upc);
+        $stmt->bindParam(':sku', $this->sku);
+        $stmt->bindParam(':regular_price', $this->regular_price);
+        $stmt->bindParam(':sale_price', $this->sale_price);
+        $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':url', $this->url);
+        $stmt->bindParam(':id', $this->id);
+
+        // Execute query
+        if($stmt->execute()) {
+            return true;
+        }
+
+        // Print error if something goes wrong
+        printf("Error: %s.\n", $stmt->error);
+
+        return false;
+
+    }
+
+
+    public function removeCategory() {
+
+        //Create query
+        $query = 'UPDATE ' . $this->table . ' 
+                  SET
+                    category_name = NULL
+                  WHERE
+                    category_name = :category_name';
+
+        $stmt = $this->conn->prepare($query);
+
+
+        $this->category_name = htmlspecialchars(strip_tags($this->category_name));
+
+
+        //Bind data
+
+        $stmt->bindParam(':category_name', $this->category_name);
+
+
+        // Execute query
+        if($stmt->execute()) {
+            return true;
+        }
+
+        // Print error if something goes wrong
+        printf("Error: %s.\n", $stmt->error);
+
+        return false;
     }
 
 }
