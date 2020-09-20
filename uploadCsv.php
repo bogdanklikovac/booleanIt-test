@@ -15,25 +15,51 @@ if(isset($_POST["import"])){
         if(end($fileName) == "csv") {
             $file = fopen($_FILES["file"]["tmp_name"], "r");
 
+            $categories = [];
+            $products = [];
             while(($column = fgetcsv($file, 1000, ",")) != FALSE) {
                 if($row > 0) {
-                    $prep = $db->prepare("INSERT into products (model_number, category_name, departmant_name, manufacturer_name, upc, sku, regular_price, sale_price, description, url) values (:model_number, :category_name, :departmant_name, :manufacturer_name, :upc, :sku, :regular_price, :sale_price, :description, :url)");
-                    $prep->bindParam(':model_number', $column[0]);
-                    $prep->bindParam(':category_name', $column[1]);
-                    $prep->bindParam(':departmant_name', $column[2]);
-                    $prep->bindParam(':manufacturer_name', $column[3]);
-                    $prep->bindParam(':upc', $column[4]);
-                    $prep->bindParam(':sku', $column[5]);
-                    $prep->bindParam(':regular_price', $column[6]);
-                    $prep->bindParam(':sale_price', $column[7]);
-                    $prep->bindParam(':description', $column[8]);
-                    $prep->bindParam(':url', $column[9]);
 
-                    $prep->execute();
+                    $products[$row] = [$column[0],$column[1],$column[2],$column[3],$column[4],$column[5],$column[6],$column[7],$column[8],$column[9]];
+                    $categories[] = $column[1];
+                    $departmants[] = $column[2];
+
                     header('Location: api/product/all_products.php');
 
                 }
                 $row++;
+            }
+            $categories = array_values(array_unique($categories));
+            $departmants = array_values(array_unique($departmants));
+            foreach ($categories as $keys=>$values) {
+                $statement = $db->prepare("INSERT INTO category (category_name) VALUE ('".$values."')");
+                $statement->execute();
+            }
+
+            foreach ($departmants as $keys=>$values) {
+                $statement = $db->prepare("INSERT INTO departmants (departmant_name) VALUE ('".$values."')");
+                $statement->execute();
+            }
+
+            $categories = $db->query("SELECT * FROM category")->fetchAll(PDO::FETCH_ASSOC);
+            $departmants = $db->query("SELECT * FROM departmants")->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($products as $value) {
+                foreach ($categories as $category) {
+                    foreach ($departmants as $departmant) {
+                        if (($value[1] == $category['category_name'])&&($value[2] == $departmant['departmant_name'])) {
+                            $prep = $db->prepare("INSERT into products (model_number, manufacturer_name, upc, sku, regular_price, sale_price, description, url, category_id, departmant_id) values (:model_number, :manufacturer_name, :upc, :sku,:regular_price, :sale_price, :description, :url, " . $category['id'] . ", ".$departmant['id'].")");
+                            $prep->bindParam(':model_number', $value[0]);
+                            $prep->bindParam(':manufacturer_name', $value[3]);
+                            $prep->bindParam(':upc', $value[4]);
+                            $prep->bindParam(':sku', $value[5]);
+                            $prep->bindParam(':regular_price', $value[6]);
+                            $prep->bindParam(':sale_price', $value[7]);
+                            $prep->bindParam(':description', $value[8]);
+                            $prep->bindParam(':url', $value[9]);
+                            $prep->execute();
+                        }
+                    }
+                }
             }
         } else {
             echo "Please Select CSV File";
