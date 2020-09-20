@@ -30,7 +30,7 @@ if($num > 0) {
     while($row = $result->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
         $product = array(
-            'category_name' => $category_name,
+
              'id'=> $id,
              'model_number'=> $model_number,
              'category_name'=> $category_name,
