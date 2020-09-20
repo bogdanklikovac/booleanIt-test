@@ -22,7 +22,7 @@ $data = json_decode(file_get_contents("php://input"));
 
 $product->id = $data->id;
 $product->category_name =$data->category_name;
-$product->departmant_name =$data->departmant_name;
+$product->department_name =$data->department_name;
 $product->model_number =$data->model_number;
 $product->manufacturer_name =$data->manufacturer_name;
 $product->upc =$data->upc;

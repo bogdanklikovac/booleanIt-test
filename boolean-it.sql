@@ -8,15 +8,15 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `category_name` varchar(255) NOT NULL,
+  `category_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `departmants`;
-CREATE TABLE `departmants` (
+DROP TABLE IF EXISTS `departments`;
+CREATE TABLE `departments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `departmant_name` varchar(255) NOT NULL,
+  `department_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -33,9 +33,13 @@ CREATE TABLE `products` (
   `description` text,
   `url` varchar(55) DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL,
-  `departmant_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `department_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `category_id` (`category_id`),
+  KEY `department_id` (`department_id`),
+  CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
+  CONSTRAINT `products_ibfk_2` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
--- 2020-09-19 23:44:51
+-- 2020-09-20 07:17:13

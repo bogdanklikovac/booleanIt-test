@@ -22,7 +22,7 @@ if(isset($_POST["import"])){
 
                     $products[$row] = [$column[0],$column[1],$column[2],$column[3],$column[4],$column[5],$column[6],$column[7],$column[8],$column[9]];
                     $categories[] = $column[1];
-                    $departmants[] = $column[2];
+                    $departments[] = $column[2];
 
                     header('Location: api/product/all_products.php');
 
@@ -30,24 +30,24 @@ if(isset($_POST["import"])){
                 $row++;
             }
             $categories = array_values(array_unique($categories));
-            $departmants = array_values(array_unique($departmants));
+            $departments = array_values(array_unique($departments));
             foreach ($categories as $keys=>$values) {
                 $statement = $db->prepare("INSERT INTO category (category_name) VALUE ('".$values."')");
                 $statement->execute();
             }
 
-            foreach ($departmants as $keys=>$values) {
-                $statement = $db->prepare("INSERT INTO departmants (departmant_name) VALUE ('".$values."')");
+            foreach ($departments as $keys=>$values) {
+                $statement = $db->prepare("INSERT INTO departments (department_name) VALUE ('".$values."')");
                 $statement->execute();
             }
 
             $categories = $db->query("SELECT * FROM category")->fetchAll(PDO::FETCH_ASSOC);
-            $departmants = $db->query("SELECT * FROM departmants")->fetchAll(PDO::FETCH_ASSOC);
+            $departments = $db->query("SELECT * FROM departments")->fetchAll(PDO::FETCH_ASSOC);
             foreach ($products as $value) {
                 foreach ($categories as $category) {
-                    foreach ($departmants as $departmant) {
-                        if (($value[1] == $category['category_name'])&&($value[2] == $departmant['departmant_name'])) {
-                            $prep = $db->prepare("INSERT into products (model_number, manufacturer_name, upc, sku, regular_price, sale_price, description, url, category_id, departmant_id) values (:model_number, :manufacturer_name, :upc, :sku,:regular_price, :sale_price, :description, :url, " . $category['id'] . ", ".$departmant['id'].")");
+                    foreach ($departments as $department) {
+                        if (($value[1] == $category['category_name'])&&($value[2] == $department['department_name'])) {
+                            $prep = $db->prepare("INSERT into products (model_number, manufacturer_name, upc, sku, regular_price, sale_price, description, url, category_id, department_id) values (:model_number, :manufacturer_name, :upc, :sku,:regular_price, :sale_price, :description, :url, " . $category['id'] . ", ".$department['id'].")");
                             $prep->bindParam(':model_number', $value[0]);
                             $prep->bindParam(':manufacturer_name', $value[3]);
                             $prep->bindParam(':upc', $value[4]);

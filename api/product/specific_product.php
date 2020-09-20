@@ -34,7 +34,7 @@ if($num > 0) {
              'id'=> $id,
              'model_number'=> $model_number,
              'category_name'=> $category_name,
-             'departmant_name'=> $departmant_name,
+             'department_name'=> $department_name,
              'manufacturer_name'=> $manufacturer_name,
              'upc'=> $upc,
              'sku'=> $sku,

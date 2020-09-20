@@ -8,8 +8,8 @@ class Product {
     //Product property
     public $id;
     public $model_number;
-    public $category_name;
-    public $departmant_name;
+    public $category_id;
+    public $department_id;
     public $manufacturer_name;
     public $upc;
     public $sku;
@@ -25,7 +25,12 @@ class Product {
 
     // Get All Products
     public function getAllProducts() {
-        $query = 'SELECT * FROM '.$this->table;
+        $query = 'SELECT p.*, d.department_name, c.category_name
+                  FROM products p
+                  INNER JOIN category c
+                  ON p.category_id = c.id
+                  INNER JOIN departments d
+                  ON p.department_id = d.id';
 
         //Prepare statement
         $stmt = $this->conn->prepare($query);
@@ -38,7 +43,7 @@ class Product {
 
     // Get categories
     public function getAllCategories() {
-        $query = 'SELECT DISTINCT category_name FROM '.$this->table;
+        $query = 'SELECT category_name FROM category';
 
         //Prepare statement
         $stmt = $this->conn->prepare($query);
@@ -52,7 +57,14 @@ class Product {
 
     // Get Specific Products
     public function getSpecificProduct() {
-        $query = 'SELECT * FROM '.$this->table.' WHERE category_name = :category_name';
+        $query = 'SELECT p.*, d.department_name, c.category_name
+                  FROM products p
+                  INNER JOIN category c
+                  ON p.category_id = c.id
+                  INNER JOIN departments d
+                  ON p.department_id = d.id
+                  WHERE c.category_name = :category_name';
+
 
         //Prepare statement
         $stmt = $this->conn->prepare($query);
@@ -70,7 +82,7 @@ class Product {
     public function updateProductCategory() {
 
         //Create query
-        $query = 'UPDATE ' . $this->table . ' 
+        $query = 'UPDATE category 
                   SET
                     category_name = :category_name
                   WHERE
@@ -127,8 +139,6 @@ class Product {
         //Create query
         $query = 'UPDATE ' . $this->table . ' 
                   SET
-                    category_name = :category_name,
-                    departmant_name = :departmant_name,
                     model_number = :model_number,
                     manufacturer_name = :manufacturer_name,
                     upc = :upc,
@@ -136,7 +146,9 @@ class Product {
                     regular_price = :regular_price,
                     sale_price = :sale_price,
                     description = :description,
-                    url = :url
+                    url = :url,
+                    category_id = :category_id,
+                    department_id = :department_id
                   WHERE
                     id = :id';
         $stmt = $this->conn->prepare($query);
@@ -144,8 +156,8 @@ class Product {
 
         //Bind data
 
-        $stmt->bindParam(':category_name', $this->category_name);
-        $stmt->bindParam(':departmant_name', $this->departmant_name);
+
+
         $stmt->bindParam(':model_number', $this->model_number);
         $stmt->bindParam(':manufacturer_name', $this->manufacturer_name);
         $stmt->bindParam(':upc', $this->upc);
@@ -154,6 +166,8 @@ class Product {
         $stmt->bindParam(':sale_price', $this->sale_price);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':url', $this->url);
+        $stmt->bindParam(':category_id', $this->category_id);
+        $stmt->bindParam(':department_id', $this->department_id);
         $stmt->bindParam(':id', $this->id);
 
         // Execute query
@@ -172,7 +186,7 @@ class Product {
     public function removeCategory() {
 
         //Create query
-        $query = 'UPDATE ' . $this->table . ' 
+        $query = 'UPDATE category 
                   SET
                     category_name = NULL
                   WHERE
