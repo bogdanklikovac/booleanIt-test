@@ -21,8 +21,8 @@ $data = json_decode(file_get_contents("php://input"));
 
 
 $product->id = $data->id;
-$product->category_name =$data->category_name;
-$product->department_name =$data->department_name;
+$product->category_id =$data->category_id;
+$product->department_id =$data->department_id;
 $product->model_number =$data->model_number;
 $product->manufacturer_name =$data->manufacturer_name;
 $product->upc =$data->upc;

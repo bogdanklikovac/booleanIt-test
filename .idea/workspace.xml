@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f38ca053-39fb-4c81-b3bb-688742c20643" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boolean-it.sql" beforeDir="false" afterPath="$PROJECT_DIR$/boolean-it.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/Product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/product/update_product.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/product/update_product.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +47,8 @@
       <workItem from="1600581758868" duration="609000" />
       <workItem from="1600582388899" duration="1830000" />
       <workItem from="1600585782390" duration="1796000" />
+      <workItem from="1600587811371" duration="2095000" />
+      <workItem from="1600589936296" duration="255000" />
     </task>
     <servers />
   </component>
@@ -55,9 +56,9 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="664" y="264" width="592" height="580" key="find.popup" timestamp="1600587489871">
+    <state x="664" y="264" width="592" height="580" key="find.popup" timestamp="1600587842077">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="664" y="264" width="592" height="580" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1600587489871" />
+    <state x="664" y="264" width="592" height="580" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1600587842077" />
   </component>
 </project>
